@@ -6,8 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
+import java.util.Scanner;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 
@@ -23,6 +22,18 @@ public class ImgMatrix {
 
     public int getHeight() {
         return this.matrix.length;
+    }
+
+    public int[] getAllPixelsInOrder(){
+        int[] allPixels = new int[this.getHeight() * this.getWidth()];
+        int index = 0;
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[i].length; j++) {
+                allPixels[index] = matrix[i][j];
+                index++;
+            }
+        }
+        return allPixels;
     }
 
     public int getLuminance(int widthCoord, int heightCoord){
@@ -55,11 +66,21 @@ public class ImgMatrix {
     }
 
     public ImgMatrix inverse(){
-        Function<Integer,Integer> inverse = integer -> Math.abs(integer / LIMIAR);
+        Function<Integer,Integer> inverse = integer -> Math.abs(LIMIAR - integer);
         ImgMatrix result = new ImgMatrix(this.matrix[0].length, this.matrix.length);
         for (int x = 0; x < this.matrix.length; x++) {
             for (int y = 0; y < this.matrix[0].length; y++) {
                 result.matrix[x][y] = inverse.apply(this.matrix[x][y]);
+            }
+        }
+        return result;
+    }
+
+    public ImgMatrix setBright(int bright){
+        ImgMatrix result = new ImgMatrix(this.matrix[0].length, this.matrix.length);
+        for (int x = 0; x < this.matrix.length; x++) {
+            for (int y = 0; y < this.matrix[0].length; y++) {
+                result.matrix[x][y] = checkBounds(this.matrix[x][y] + bright);
             }
         }
         return result;
@@ -113,7 +134,6 @@ public class ImgMatrix {
 
     public static ImgMatrix fromString(String reference){
         reference = reference.toString().replaceAll("[^0-9," + Pattern.quote("]") + "]","");
-
         String lines[] = reference.split(Pattern.quote("]"));
         int[][] matrix = new int[lines.length][lines[0].split(Pattern.quote(",")).length];
         for (int x = 0; x < lines.length; x++) {
@@ -142,37 +162,53 @@ public class ImgMatrix {
             System.out.println("The Result");
             System.out.println(String.valueOf(result));
 
-            System.out.println(FileHelper.readAndCreateMatrix(new File("teste.txt")));
+            //BufferedImage originalImage = ImageHelper.readImage(new File("tests/Lena 256x256.png"));
 
-            BufferedImage originalImage = ImageHelper.readImage(new File("tests/Lena 256x256.png"));
+            ImgMatrix imgMatrix = FileHelper.readAndCreateMatrix(new File("tests/Lena 256x256.png"));
+            //FileHelper.export(new File("tests/lena256x256"), imgMatrix, FileHelper.ExtensionTypes.PGM);
 
-            ImgMatrix imgMatrix = ImageHelper.convertToPGM(originalImage);
-            FileHelper.write(new File("tests/lena256x256.txt"), imgMatrix);
-
-            showImage(originalImage);
-
-            ImgMatrix inverse = imgMatrix;
-
-            BufferedImage inverseBufferedImage = ImageHelper.convertToBufferedImage(inverse);
-
-            showImage(inverseBufferedImage);
+            //ImgMatrix finalImg = FileHelper.readAndCreateMatrix(new File("tests/lena256x256222.pgm"));
+            //BufferedImage inverseBufferedImage = ImageHelper.convertToBufferedImage(finalImg);
+            showImage(imgMatrix);
+            showImage(imgMatrix);
         }catch (Throwable t){
             t.printStackTrace();
         }
     }
 
     private static int counter = 0;
-    public static void showImage(BufferedImage image){
+    public static void showImage(final ImgMatrix imgMatrix){
         final int num = ++counter;
         new Thread(){
             @Override
             public void run() {
                 JFrame frame = new JFrame();
                 frame.getContentPane().setLayout(new FlowLayout());
-                frame.getContentPane().add(new JLabel(new ImageIcon(image)));
+                frame.getContentPane().add(new JLabel(new ImageIcon(ImageHelper.convertToBufferedImage(imgMatrix))));
                 frame.pack();
                 frame.setTitle("Image " + num);
                 frame.setVisible(true);
+                if (num == 1){
+                    try {
+                        while (true){
+                            System.out.println("Por favor, insira um valor de luminosidade!");
+                            Scanner input = new Scanner(System.in);
+                            Integer newLight;
+                            try {
+                                newLight = Integer.parseInt(input.nextLine());
+                            }catch (Exception e){
+                                System.out.println("Valor invalido!!!");
+                                continue;
+                            }
+                            frame.getContentPane().removeAll();
+                            ImgMatrix modified = imgMatrix.setBright(newLight);
+                            frame.getContentPane().add(new JLabel(new ImageIcon(ImageHelper.convertToBufferedImage(modified))));
+                            frame.pack();
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
             }
         }.start();
     }

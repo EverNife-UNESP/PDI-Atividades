@@ -19,7 +19,7 @@ public class ImageHelper {
         return null;
     }
 
-    public static ImgMatrix convertToPGM(BufferedImage original){
+    public static ImgMatrix converToImgMatrix(BufferedImage original){
         try {
             ImgMatrix imgMatrix = new ImgMatrix(original.getWidth(),original.getHeight());
             for (int y = 0; y < original.getHeight(); y++) {
