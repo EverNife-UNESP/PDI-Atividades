@@ -5,21 +5,43 @@ buildscript {
             dirs 'libs'
         }
     }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.1'
+    }
 }
 
 apply plugin: 'java'
+apply plugin: 'com.github.johnrengelman.shadow'
+
 group 'br.com.finalcraft'
-version '1.0.1a'
+version '1.0.2a'
 sourceCompatibility = 1.8
 
 compileJava.options.encoding = 'UTF-8'
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-}
 
 repositories {
     flatDir {
         dirs 'libs'
     }
     mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
+
+dependencies {
+  //  compile 'com.jfoenix:jfoenix:8.0.8' // Java 8
+}
+
+shadowJar {
+    dependencies {
+        exclude(dependency('shadow:d:1.0'))
+    }
+    archiveName = "${baseName}-${version}.jar"
+    manifest {
+        attributes 'Main-Class': 'br.com.finalcraft.unesp.java.pdi.JavaFXMain'
+    }
+}
+
+build.dependsOn(shadowJar);
+jar.enabled = false
+
+
