@@ -7,15 +7,21 @@ import br.com.finalcraft.unesp.java.pdi.javafx.controller.consoleview.ConsoleVie
 import br.com.finalcraft.unesp.java.pdi.javafx.controller.filemanager.FileLoaderHandler;
 
 import br.com.finalcraft.unesp.java.pdi.javafx.controller.filemanager.FileSaverHandler;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.ScrollEvent;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -27,11 +33,6 @@ public class MainController implements FileLoaderHandler, FileSaverHandler {
     public ImgWrapper leftImage;
     public ImgWrapper rightImage;
     public ImgWrapper rightImageBackUp;
-
-    @FXML
-    void initialize() {
-        instance = this;
-    }
 
     public void updateImagesBeingDisplayed(){
         if (leftImage != null){
@@ -59,6 +60,10 @@ public class MainController implements FileLoaderHandler, FileSaverHandler {
             buttonInvertColors.setDisable(false);
             buttomRotateLeft.setDisable(false);
             buttomRotateRight.setDisable(false);
+            buttomFlipHorizonttal.setDisable(false);
+            buttomFlipVertical.setDisable(false);
+
+            zoomProperty.set(leftImage.getRed().getWidth() / 4);
         }
         setLight(0);
     }
@@ -96,7 +101,54 @@ public class MainController implements FileLoaderHandler, FileSaverHandler {
     private Button buttomRotateRight;
 
     @FXML
+    private Button buttomFlipHorizonttal;
+
+    @FXML
+    private Button buttomFlipVertical;
+
+    @FXML
     private Button restaurarButtom;
+
+    @FXML
+    private ScrollPane scrollPaneLeft;
+
+    @FXML
+    private ScrollPane scrollPaneRight;
+
+    private final DoubleProperty zoomProperty = new SimpleDoubleProperty(100);
+
+    @FXML
+    void initialize() {
+        instance = this;
+
+        leftImageViwer.setPreserveRatio(true);
+        rightImageViwer.setPreserveRatio(true);
+
+        zoomProperty.addListener(new InvalidationListener() {
+            public void invalidated(Observable observable) {
+                leftImageViwer.setFitWidth(zoomProperty.get() * 4);
+                leftImageViwer.setFitHeight(zoomProperty.get() * 3);
+                rightImageViwer.setFitWidth(zoomProperty.get() * 4);
+                rightImageViwer.setFitHeight(zoomProperty.get() * 3);
+            }
+        });
+
+        EventHandler<ScrollEvent> scrollEventEventHandler = new EventHandler<ScrollEvent>() {
+            @Override
+            public void handle(ScrollEvent event) {
+                if (event.getDeltaY() > 0) {
+                    zoomProperty.set(zoomProperty.get() * 1.1);
+                    System.out.println("zoomProperty: " + zoomProperty);
+                } else if (event.getDeltaY() < 0) {
+                    zoomProperty.set(zoomProperty.get() / 1.1);
+                    System.out.println("zoomProperty: " + zoomProperty);
+                }
+            }
+        };
+
+        scrollPaneLeft.addEventFilter(ScrollEvent.ANY, scrollEventEventHandler);
+        scrollPaneRight.addEventFilter(ScrollEvent.ANY, scrollEventEventHandler);
+    }
 
     public void updateLight(){
         rightImage = rightImageBackUp.setBright(currentbright);
@@ -111,6 +163,7 @@ public class MainController implements FileLoaderHandler, FileSaverHandler {
         updateLight();
     }
     int currentbright = 0;
+
     @FXML
     void onBrightManual(KeyEvent event) {
         try {
@@ -154,6 +207,22 @@ public class MainController implements FileLoaderHandler, FileSaverHandler {
         rightImageBackUp = rightImage.clone();
         setLight(0);
         System.out.println("Rotated to Right");
+    }
+
+    @FXML
+    void onFlipHorizontal() {
+        this.rightImage = this.rightImage.flipHorizontal();
+        rightImageBackUp = rightImage.clone();
+        setLight(0);
+        System.out.println("Flip Horizontal");
+    }
+
+    @FXML
+    void onFlipVertical() {
+        this.rightImage = this.rightImage.flipVertical();
+        rightImageBackUp = rightImage.clone();
+        setLight(0);
+        System.out.println("Flip Vertical");
     }
 
     @FXML

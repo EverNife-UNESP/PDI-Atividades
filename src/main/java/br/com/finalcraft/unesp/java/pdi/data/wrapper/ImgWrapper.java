@@ -60,6 +60,20 @@ public class ImgWrapper {
         return new ImgWrapper(rotated_red, rotated_green, rotated_blue);
     }
 
+    public ImgWrapper flipHorizontal(){
+        ImgMatrix brighted_red = red.flipHorizontal();
+        ImgMatrix brighted_green = isBlackAndWhite() ? null : green.flipHorizontal();
+        ImgMatrix brighted_blue = isBlackAndWhite() ? null : blue.flipHorizontal();
+        return new ImgWrapper(brighted_red, brighted_green, brighted_blue);
+    }
+
+    public ImgWrapper flipVertical(){
+        ImgMatrix brighted_red = red.flipVertical();
+        ImgMatrix brighted_green = isBlackAndWhite() ? null : green.flipVertical();
+        ImgMatrix brighted_blue = isBlackAndWhite() ? null : blue.flipVertical();
+        return new ImgWrapper(brighted_red, brighted_green, brighted_blue);
+    }
+
     public ImgWrapper setBright(int bright){
         ImgMatrix brighted_red = red.setBright(bright);
         ImgMatrix brighted_green = isBlackAndWhite() ? null : green.setBright(bright);

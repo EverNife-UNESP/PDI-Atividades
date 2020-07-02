@@ -125,7 +125,27 @@ public class ImgMatrix {
         ImgMatrix result = new ImgMatrix(this.matrix.length, this.matrix[0].length);
         for (int x = 0; x < this.matrix.length; x++) {
             for (int y = 0; y < this.matrix[x].length; y++) {
-                result.matrix[this.matrix.length - 1 - y][x] = this.matrix[x][y];
+                result.matrix[this.matrix[x].length - 1 - y][x] = this.matrix[x][y];
+            }
+        }
+        return result;
+    }
+
+    public ImgMatrix flipHorizontal(){
+        ImgMatrix result = new ImgMatrix(this.matrix[0].length,this.matrix.length);
+        for (int x = 0; x < this.matrix.length; x++) {
+            for (int y = 0; y < this.matrix[x].length; y++) {
+                result.matrix[x][this.matrix[x].length - 1 - y] = this.matrix[x][y];
+            }
+        }
+        return result;
+    }
+
+    public ImgMatrix flipVertical(){
+        ImgMatrix result = new ImgMatrix(this.matrix[0].length,this.matrix.length);
+        for (int x = 0; x < this.matrix.length; x++) {
+            for (int y = 0; y < this.matrix[x].length; y++) {
+                result.matrix[this.matrix.length - 1 - x][y] = this.matrix[x][y];
             }
         }
         return result;
