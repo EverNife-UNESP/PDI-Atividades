@@ -235,15 +235,13 @@ public class MainController implements FileLoaderHandler, FileSaverHandler {
     void onBrightManualMin() {
         try {
             int integer = (int) Double.parseDouble(brightRangeMin.getText());
-            if (integer > rangeSlider.getMax()){
-                integer = (int) rangeSlider.getMax();
-                rangeSlider.setHighValue(integer);
-            }
-            if (integer < rangeSlider.getMin()){
+            if (integer > rangeSlider.getHighValue()){
+                integer = (int) rangeSlider.getHighValue();
+            }else if (integer < rangeSlider.getMin()){
                 integer = (int) rangeSlider.getMin();
-                rangeSlider.setLowValue(integer);
             }
             currentLowerBound = integer;
+            rangeSlider.setLowValue(currentLowerBound);
             System.out.println("Lower bound range set to: " + currentLowerBound);
         }catch (Exception e){
             brightRangeMin.setText("" + currentLowerBound);
@@ -257,13 +255,11 @@ public class MainController implements FileLoaderHandler, FileSaverHandler {
             int integer = (int) Double.parseDouble(brightRangeMax.getText());
             if (integer > rangeSlider.getMax()){
                 integer = (int) rangeSlider.getMax();
-                rangeSlider.setHighValue(integer);
-            }
-            if (integer < rangeSlider.getMin()){
-                integer = (int) rangeSlider.getMin();
-                rangeSlider.setLowValue(integer);
+            }else if (integer < rangeSlider.getLowValue()){
+                integer = (int) rangeSlider.getLowValue();
             }
             currentHigherBound = integer;
+            rangeSlider.setHighValue(currentHigherBound);
             System.out.println("Higher bound range set to: " + currentHigherBound);
         }catch (Exception e){
             brightRangeMin.setText("" + currentHigherBound);
