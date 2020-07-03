@@ -22,6 +22,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.GridPane;
+import org.controlsfx.control.RangeSlider;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -51,6 +53,8 @@ public class MainController implements FileLoaderHandler, FileSaverHandler {
     public void onFileLoaded(File file) {
         ImgWrapper imgWrapper = FileHelper.readAndCreateImageWrapper(file);
         if (imgWrapper != null){
+            System.out.println("Loading image: " + file.getAbsolutePath());
+
             leftImage = imgWrapper;
             rightImage = imgWrapper.clone();
             rightImageBackUp = imgWrapper.clone();
@@ -62,6 +66,9 @@ public class MainController implements FileLoaderHandler, FileSaverHandler {
             buttomRotateRight.setDisable(false);
             buttomFlipHorizonttal.setDisable(false);
             buttomFlipVertical.setDisable(false);
+            rangeSlider.setDisable(false);
+            brightRangeMin.setDisable(false);
+            brightRangeMax.setDisable(false);
 
             zoomProperty.set(leftImage.getRed().getWidth() / 4);
         }
@@ -81,6 +88,11 @@ public class MainController implements FileLoaderHandler, FileSaverHandler {
 
     @FXML
     private Slider brightSlider;
+
+    @FXML
+    private Slider brightSliderRangeFake;
+
+    private RangeSlider rangeSlider;
 
     @FXML
     private TextField brightTextField;
@@ -110,6 +122,12 @@ public class MainController implements FileLoaderHandler, FileSaverHandler {
     private Button restaurarButtom;
 
     @FXML
+    private TextField brightRangeMin;
+
+    @FXML
+    private TextField brightRangeMax;
+
+    @FXML
     private ScrollPane scrollPaneLeft;
 
     @FXML
@@ -120,6 +138,32 @@ public class MainController implements FileLoaderHandler, FileSaverHandler {
     @FXML
     void initialize() {
         instance = this;
+
+        rangeSlider = new RangeSlider(0, 255, 0, 255);
+        rangeSlider.setDisable(true);
+
+        GridPane gridPane = (GridPane) brightSliderRangeFake.getParent();
+        gridPane.add(rangeSlider, 0, GridPane.getRowIndex(brightSliderRangeFake));
+        brightSliderRangeFake.setVisible(false);
+        brightSliderRangeFake.setDisable(true);
+
+        rangeSlider.setShowTickMarks(true);
+        rangeSlider.setShowTickLabels(true);
+        rangeSlider.setMajorTickUnit(16);
+        rangeSlider.setMinorTickCount(1);
+        rangeSlider.setSnapToTicks(true);
+
+        // Set the socket values whenever the range changes
+        this.rangeSlider.lowValueProperty().addListener(o -> {
+            this.brightRangeMin.setText(String.valueOf((int)rangeSlider.getLowValue()));
+            this.onBrightManualMin();
+            this.updateLight();
+        });
+        this.rangeSlider.highValueProperty().addListener(o -> {
+            this.brightRangeMax.setText(String.valueOf((int)rangeSlider.getHighValue()));
+            this.onBrightManualHigh();
+            this.updateLight();
+        });
 
         leftImageViwer.setPreserveRatio(true);
         rightImageViwer.setPreserveRatio(true);
@@ -151,14 +195,13 @@ public class MainController implements FileLoaderHandler, FileSaverHandler {
     }
 
     public void updateLight(){
-        rightImage = rightImageBackUp.setBright(currentbright);
+        rightImage = rightImageBackUp.setBright(currentbright, currentLowerBound, currentHigherBound);
         updateImagesBeingDisplayed();
     }
 
     public void setLight(int value){
         currentbright = value;
-        brightTextField.clear();
-        brightTextField.appendText(String.valueOf(currentbright));
+        brightTextField.setText(String.valueOf(currentbright));
         brightSlider.setValue(value);
         updateLight();
     }
@@ -166,6 +209,70 @@ public class MainController implements FileLoaderHandler, FileSaverHandler {
 
     @FXML
     void onBrightManual(KeyEvent event) {
+        try {
+            int integer = (int) Double.parseDouble(brightTextField.getText());
+            if (integer > brightSlider.getMax()){
+                integer = (int) brightSlider.getMax();
+                brightSlider.setValue(integer);
+            }
+            if (integer < brightSlider.getMin()){
+                integer = (int) brightSlider.getMin();
+                brightSlider.setValue(integer);
+            }
+            currentbright = integer;
+            updateLight();
+            System.out.println("Bright set to: " + currentbright);
+        }catch (Exception e){
+            brightTextField.setText("" + currentbright);
+            System.out.println("Failed to set bright to non Int");
+        }
+    }
+
+    int currentLowerBound = 0;
+    int currentHigherBound = 255;
+
+    @FXML
+    void onBrightManualMin() {
+        try {
+            int integer = (int) Double.parseDouble(brightRangeMin.getText());
+            if (integer > rangeSlider.getMax()){
+                integer = (int) rangeSlider.getMax();
+                rangeSlider.setHighValue(integer);
+            }
+            if (integer < rangeSlider.getMin()){
+                integer = (int) rangeSlider.getMin();
+                rangeSlider.setLowValue(integer);
+            }
+            currentLowerBound = integer;
+            System.out.println("Lower bound range set to: " + currentLowerBound);
+        }catch (Exception e){
+            brightRangeMin.setText("" + currentLowerBound);
+            System.out.println("Failed lower bound range.");
+        }
+    }
+
+    @FXML
+    void onBrightManualHigh() {
+        try {
+            int integer = (int) Double.parseDouble(brightRangeMax.getText());
+            if (integer > rangeSlider.getMax()){
+                integer = (int) rangeSlider.getMax();
+                rangeSlider.setHighValue(integer);
+            }
+            if (integer < rangeSlider.getMin()){
+                integer = (int) rangeSlider.getMin();
+                rangeSlider.setLowValue(integer);
+            }
+            currentHigherBound = integer;
+            System.out.println("Higher bound range set to: " + currentHigherBound);
+        }catch (Exception e){
+            brightRangeMin.setText("" + currentHigherBound);
+            System.out.println("Failed higher bound range.");
+        }
+    }
+
+    @FXML
+    void onBrightRangeManual(KeyEvent event) {
         try {
             int integer = (int) Double.parseDouble(brightTextField.getCharacters().toString());
             if (integer > brightSlider.getMax()) integer = (int) brightSlider.getMax();
@@ -181,6 +288,18 @@ public class MainController implements FileLoaderHandler, FileSaverHandler {
 
     @FXML
     void onDragSlider() {
+        setLight((int) brightSlider.getValue());
+        System.out.println("Bright set to: " + currentbright);
+    }
+
+    @FXML
+    void onDragSliderRangeMin() {
+        setLight((int) brightSlider.getValue());
+        System.out.println("Bright set to: " + currentbright);
+    }
+
+    @FXML
+    void onDragSliderRangeMax() {
         setLight((int) brightSlider.getValue());
         System.out.println("Bright set to: " + currentbright);
     }
@@ -244,5 +363,11 @@ public class MainController implements FileLoaderHandler, FileSaverHandler {
         this.rightImage = this.leftImage.clone();
         this.rightImageBackUp = this.leftImage.clone();
         setLight(0);
+    }
+
+    @FXML
+    void onTempSave(){
+        this.leftImage = this.rightImage.clone();
+        onRestaurar();
     }
 }

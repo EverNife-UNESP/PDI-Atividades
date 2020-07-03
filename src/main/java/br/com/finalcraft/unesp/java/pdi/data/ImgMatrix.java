@@ -83,6 +83,21 @@ public class ImgMatrix {
         return result;
     }
 
+    public ImgMatrix setBright(int bright, int minBound, int maxBound){
+        ImgMatrix result = new ImgMatrix(this.matrix[0].length, this.matrix.length);
+        for (int x = 0; x < this.matrix.length; x++) {
+            for (int y = 0; y < this.matrix[0].length; y++) {
+                int currentValue = this.matrix[x][y];
+                if (currentValue >= minBound && currentValue <= maxBound){
+                    result.matrix[x][y] = checkBounds(currentValue + bright);
+                }else {
+                    result.matrix[x][y] = currentValue;
+                }
+            }
+        }
+        return result;
+    }
+
     public ImgMatrix subtract(ImgMatrix other){
         ImgMatrix result = new ImgMatrix(this.matrix[0].length, this.matrix.length);
         for (int x = 0; x < this.matrix.length; x++) {

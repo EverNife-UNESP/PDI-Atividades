@@ -14,7 +14,7 @@ apply plugin: 'java'
 apply plugin: 'com.github.johnrengelman.shadow'
 
 group 'br.com.finalcraft'
-version '1.0.2a'
+version '1.0.3a'
 sourceCompatibility = 1.8
 
 compileJava.options.encoding = 'UTF-8'
@@ -28,7 +28,10 @@ repositories {
 }
 
 dependencies {
-  //  compile 'com.jfoenix:jfoenix:8.0.8' // Java 8
+    //  compile 'com.jfoenix:jfoenix:8.0.8' // Java 8
+
+    // https://mvnrepository.com/artifact/org.controlsfx/controlsfx
+    compile group: 'org.controlsfx', name: 'controlsfx', version: '8.40.17'
 }
 
 shadowJar {

@@ -11,12 +11,12 @@
 <?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane prefHeight="479.0" prefWidth="674.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.finalcraft.unesp.java.pdi.javafx.controller.MainController">
@@ -44,79 +44,6 @@
          </items>
       </ToolBar>
    </top>
-   <right>
-      <VBox prefHeight="360.0" prefWidth="98.0" BorderPane.alignment="CENTER">
-         <children>
-            <GridPane prefWidth="98.0">
-              <columnConstraints>
-                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" valignment="CENTER" vgrow="SOMETIMES" />
-                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                  <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="52.0" minHeight="10.0" prefHeight="52.0" valignment="CENTER" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="75.0" minHeight="19.0" prefHeight="69.0" valignment="CENTER" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="92.0" minHeight="10.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="113.0" minHeight="10.0" prefHeight="43.0" vgrow="SOMETIMES" />
-                  <RowConstraints maxHeight="71.0" minHeight="10.0" prefHeight="999.0" vgrow="SOMETIMES" />
-              </rowConstraints>
-               <children>
-                  <Slider fx:id="brightSlider" blockIncrement="1.0" disable="true" max="256.0" min="-256.0" onMouseDragged="#onDragSlider" prefHeight="14.0" prefWidth="81.0" GridPane.rowIndex="1">
-                     <GridPane.margin>
-                        <Insets bottom="5.0" />
-                     </GridPane.margin>
-                  </Slider>
-                  <Label text="Brilho" />
-                  <Button fx:id="buttonInvertColors" disable="true" mnemonicParsing="false" onAction="#onInvertColors" text="Inveter Cores" textFill="#6f0000" GridPane.rowIndex="3">
-                     <GridPane.margin>
-                        <Insets top="20.0" />
-                     </GridPane.margin>
-                  </Button>
-                  <Label text="Rotacionar 90°" GridPane.rowIndex="4">
-                     <GridPane.margin>
-                        <Insets top="10.0" />
-                     </GridPane.margin>
-                  </Label>
-                  <HBox alignment="CENTER" GridPane.rowIndex="5">
-                     <children>
-                        <Button fx:id="buttomRotateLeft" disable="true" mnemonicParsing="false" onAction="#onRotateLeft" text="&lt;&lt;&lt;" textFill="#38ab54" />
-                        <Button fx:id="buttomRotateRight" disable="true" mnemonicParsing="false" onAction="#onRotateRight" text="&gt;&gt;&gt;" textFill="#38ab54" />
-                     </children>
-                     <GridPane.margin>
-                        <Insets />
-                     </GridPane.margin>
-                  </HBox>
-                  <TextField fx:id="brightTextField" alignment="CENTER" disable="true" maxWidth="37.0" onKeyTyped="#onBrightManual" prefHeight="25.0" prefWidth="31.0" text="0" GridPane.rowIndex="2">
-                     <GridPane.margin>
-                        <Insets />
-                     </GridPane.margin>
-                  </TextField>
-                  <Button fx:id="restaurarButtom" mnemonicParsing="false" onAction="#onRestaurar" text="Restaurar" textFill="#217c11" GridPane.rowIndex="8">
-                     <GridPane.margin>
-                        <Insets top="20.0" />
-                     </GridPane.margin>
-                  </Button>
-                  <HBox alignment="CENTER" GridPane.rowIndex="7">
-                     <children>
-                        <Button fx:id="buttomFlipHorizonttal" disable="true" mnemonicParsing="false" onAction="#onFlipHorizontal" prefHeight="38.0" prefWidth="38.0" text="&lt;-&gt;" textFill="#5669e4" />
-                        <Button fx:id="buttomFlipVertical" disable="true" mnemonicParsing="false" onAction="#onFlipVertical" prefHeight="38.0" prefWidth="38.0" rotate="-90.0" text="&lt;-&gt;" textFill="#5669e4" />
-                     </children>
-                  </HBox>
-                  <Label text="Flip" GridPane.rowIndex="6">
-                     <GridPane.margin>
-                        <Insets top="10.0" />
-                     </GridPane.margin>
-                  </Label>
-               </children>
-            </GridPane>
-         </children>
-      </VBox>
-   </right>
    <center>
       <HBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
          <children>
@@ -133,4 +60,87 @@
          </children>
       </HBox>
    </center>
+   <right>
+      <AnchorPane BorderPane.alignment="CENTER">
+         <children>
+            <GridPane prefHeight="426.0" prefWidth="98.0">
+              <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="29.0" minHeight="21.0" prefHeight="22.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="35.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="33.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="33.0" minHeight="19.0" prefHeight="31.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="33.0" minHeight="19.0" prefHeight="31.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="60.0" minHeight="48.0" prefHeight="48.0" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="46.0" minHeight="0.0" prefHeight="46.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="31.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="63.0" minHeight="23.0" prefHeight="36.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="69.0" minHeight="39.0" prefHeight="39.0" valignment="CENTER" vgrow="SOMETIMES" />
+                  <RowConstraints maxHeight="69.0" minHeight="39.0" prefHeight="39.0" valignment="CENTER" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <Slider fx:id="brightSlider" blockIncrement="1.0" disable="true" max="256.0" min="-256.0" onMouseDragged="#onDragSlider" prefHeight="14.0" prefWidth="81.0" GridPane.rowIndex="1">
+                     <GridPane.margin>
+                        <Insets bottom="5.0" />
+                     </GridPane.margin>
+                  </Slider>
+                  <Label text="Brilho" />
+                  <Button fx:id="buttonInvertColors" disable="true" mnemonicParsing="false" onAction="#onInvertColors" text="Inveter Cores" textFill="#6f0000" GridPane.rowIndex="6">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </Button>
+                  <Label text="Rotacionar 90°" GridPane.rowIndex="7">
+                     <GridPane.margin>
+                        <Insets top="10.0" />
+                     </GridPane.margin>
+                  </Label>
+                  <HBox alignment="CENTER" GridPane.rowIndex="8">
+                     <children>
+                        <Button fx:id="buttomRotateLeft" disable="true" mnemonicParsing="false" onAction="#onRotateLeft" text="&lt;&lt;&lt;" textFill="#38ab54" />
+                        <Button fx:id="buttomRotateRight" disable="true" mnemonicParsing="false" onAction="#onRotateRight" text="&gt;&gt;&gt;" textFill="#38ab54" />
+                     </children>
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </HBox>
+                  <TextField fx:id="brightTextField" alignment="CENTER" disable="true" maxWidth="59.0" onKeyTyped="#onBrightManual" prefHeight="25.0" prefWidth="59.0" text="0" GridPane.rowIndex="2">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </TextField>
+                  <Button fx:id="restaurarButtom" mnemonicParsing="false" onAction="#onRestaurar" text="Restaurar" textFill="#217c11" GridPane.rowIndex="12">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </Button>
+                  <HBox alignment="CENTER" GridPane.rowIndex="10">
+                     <children>
+                        <Button fx:id="buttomFlipHorizonttal" disable="true" mnemonicParsing="false" onAction="#onFlipHorizontal" prefHeight="38.0" prefWidth="38.0" text="&lt;-&gt;" textFill="#5669e4" />
+                        <Button fx:id="buttomFlipVertical" disable="true" mnemonicParsing="false" onAction="#onFlipVertical" prefHeight="38.0" prefWidth="38.0" rotate="-90.0" text="&lt;-&gt;" textFill="#5669e4" />
+                     </children>
+                  </HBox>
+                  <Label text="Flip" GridPane.rowIndex="9">
+                     <GridPane.margin>
+                        <Insets />
+                     </GridPane.margin>
+                  </Label>
+                  <Slider fx:id="brightSliderRangeFake" blockIncrement="1.0" disable="true" max="256.0" min="-256.0" onMouseDragged="#onDragSlider" prefHeight="14.0" prefWidth="81.0" GridPane.rowIndex="4" />
+                  <Label text="Intervalo de&#10;Brilho" textAlignment="CENTER" GridPane.rowIndex="3" />
+                  <HBox alignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
+                     <children>
+                        <TextField fx:id="brightRangeMin" alignment="CENTER" disable="true" maxWidth="45.0" onKeyTyped="#onBrightManualMin" prefHeight="25.0" prefWidth="45.0" text="0" />
+                        <TextField fx:id="brightRangeMax" alignment="CENTER" disable="true" maxWidth="45.0" onKeyTyped="#onBrightManualHigh" prefHeight="25.0" prefWidth="45.0" text="0" />
+                     </children>
+                  </HBox>
+                  <Button mnemonicParsing="false" onAction="#onTempSave" text="TempSave" textFill="#64b9b6" GridPane.rowIndex="11" />
+               </children>
+            </GridPane>
+         </children>
+      </AnchorPane>
+   </right>
 </BorderPane>

@@ -81,6 +81,13 @@ public class ImgWrapper {
         return new ImgWrapper(brighted_red, brighted_green, brighted_blue);
     }
 
+    public ImgWrapper setBright(int bright, int minBound, int maxBound){
+        ImgMatrix brighted_red = red.setBright(bright, minBound, maxBound);
+        ImgMatrix brighted_green = isBlackAndWhite() ? null : green.setBright(bright, minBound, maxBound);
+        ImgMatrix brighted_blue = isBlackAndWhite() ? null : blue.setBright(bright, minBound, maxBound);
+        return new ImgWrapper(brighted_red, brighted_green, brighted_blue);
+    }
+
     public ImgWrapper clone(){
         if (isBlackAndWhite()){
             return new ImgWrapper(this.getRed().clone());
