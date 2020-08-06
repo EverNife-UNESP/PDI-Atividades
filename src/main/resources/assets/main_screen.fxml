@@ -18,8 +18,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
+<?import org.controlsfx.control.RangeSlider?>
 
-<BorderPane prefHeight="479.0" prefWidth="674.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.finalcraft.unesp.java.pdi.javafx.controller.MainController">
+<BorderPane prefHeight="479.0" prefWidth="674.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.com.finalcraft.unesp.java.pdi.javafx.controller.MainController">
    <top>
       <ToolBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <items>
@@ -35,6 +36,17 @@
                      </graphic></MenuItem>
                 <MenuItem mnemonicParsing="false" onAction="#onExport" text="Exportar Como" />
               </items>
+            </MenuButton>
+            <MenuButton mnemonicParsing="false" text="Avançado">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#onBrightEqualization" text="Equalizar Brilho" />
+               </items>
+            </MenuButton>
+            <MenuButton mnemonicParsing="false" text="Histogramas">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#onBrightHistogram" text="Histograma de Brilho" />
+                  <MenuItem mnemonicParsing="false" onAction="#onColorHistogram" text="Histograma de Cores" />
+               </items>
             </MenuButton>
             <Button mnemonicParsing="false" onAction="#onConsoleOpen" text="Abrir Console" textFill="#d04e4e">
                <font>
@@ -129,7 +141,7 @@
                         <Insets />
                      </GridPane.margin>
                   </Label>
-                  <Slider fx:id="brightSliderRangeFake" blockIncrement="1.0" disable="true" max="256.0" min="-256.0" onMouseDragged="#onDragSlider" prefHeight="14.0" prefWidth="81.0" GridPane.rowIndex="4" />
+                  <RangeSlider fx:id="rangeSlider" blockIncrement="1.0" disable="true" highValue="255.0" lowValue="0.0" majorTickUnit="16.0" max="255.0" minorTickCount="1" showTickLabels="true" showTickMarks="true" snapToTicks="true" GridPane.rowIndex="4" />
                   <Label text="Intervalo de&#10;Brilho" textAlignment="CENTER" GridPane.rowIndex="3" />
                   <HBox alignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER">
                      <children>

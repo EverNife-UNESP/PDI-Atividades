@@ -7,6 +7,8 @@ import br.com.finalcraft.unesp.java.pdi.javafx.controller.consoleview.ConsoleVie
 import br.com.finalcraft.unesp.java.pdi.javafx.controller.filemanager.FileLoaderHandler;
 
 import br.com.finalcraft.unesp.java.pdi.javafx.controller.filemanager.FileSaverHandler;
+import br.com.finalcraft.unesp.java.pdi.javafx.histogram.BrightHistogramViwer;
+import br.com.finalcraft.unesp.java.pdi.javafx.histogram.ColorHistogramViwer;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.property.DoubleProperty;
@@ -22,7 +24,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.GridPane;
 import org.controlsfx.control.RangeSlider;
 
 import java.awt.image.BufferedImage;
@@ -90,8 +91,6 @@ public class MainController implements FileLoaderHandler, FileSaverHandler {
     private Slider brightSlider;
 
     @FXML
-    private Slider brightSliderRangeFake;
-
     private RangeSlider rangeSlider;
 
     @FXML
@@ -139,19 +138,8 @@ public class MainController implements FileLoaderHandler, FileSaverHandler {
     void initialize() {
         instance = this;
 
-        rangeSlider = new RangeSlider(0, 255, 0, 255);
-        rangeSlider.setDisable(true);
-
-        GridPane gridPane = (GridPane) brightSliderRangeFake.getParent();
-        gridPane.add(rangeSlider, 0, GridPane.getRowIndex(brightSliderRangeFake));
-        brightSliderRangeFake.setVisible(false);
-        brightSliderRangeFake.setDisable(true);
-
-        rangeSlider.setShowTickMarks(true);
-        rangeSlider.setShowTickLabels(true);
-        rangeSlider.setMajorTickUnit(16);
-        rangeSlider.setMinorTickCount(1);
-        rangeSlider.setSnapToTicks(true);
+        rangeSlider.setLowValue(0);
+        rangeSlider.setHighValue(255);
 
         // Set the socket values whenever the range changes
         this.rangeSlider.lowValueProperty().addListener(o -> {
@@ -164,6 +152,8 @@ public class MainController implements FileLoaderHandler, FileSaverHandler {
             this.onBrightManualHigh();
             this.updateLight();
         });
+
+
 
         leftImageViwer.setPreserveRatio(true);
         rightImageViwer.setPreserveRatio(true);
@@ -197,6 +187,9 @@ public class MainController implements FileLoaderHandler, FileSaverHandler {
     public void updateLight(){
         rightImage = rightImageBackUp.setBright(currentbright, currentLowerBound, currentHigherBound);
         updateImagesBeingDisplayed();
+        if (brightHistogramViwer != null && brightHistogramViwer.isVisible()){
+            brightHistogramViwer.update(rightImage);
+        }
     }
 
     public void setLight(int value){
@@ -365,5 +358,26 @@ public class MainController implements FileLoaderHandler, FileSaverHandler {
     void onTempSave(){
         this.leftImage = this.rightImage.clone();
         onRestaurar();
+    }
+
+    BrightHistogramViwer brightHistogramViwer = null;
+    @FXML
+    void onBrightHistogram(){
+        System.out.println("Exibindo BrightHistogramViwer");
+        (brightHistogramViwer = new BrightHistogramViwer(this.rightImage)).display();
+    }
+
+    @FXML
+    void onColorHistogram(){
+        System.out.println("Exibindo ColorHistogramViwer");
+        new ColorHistogramViwer(this.rightImage).display();
+    }
+
+    @FXML
+    void onBrightEqualization(){
+        this.rightImage = this.rightImage.equalizarBrilho();
+        rightImageBackUp = rightImage.clone();
+        setLight(0);
+        System.out.println("Brilho da imagem equalizado!");
     }
 }

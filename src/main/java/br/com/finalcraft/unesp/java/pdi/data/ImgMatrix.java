@@ -6,6 +6,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.function.Function;
 import java.util.regex.Pattern;
@@ -161,6 +164,36 @@ public class ImgMatrix {
         for (int x = 0; x < this.matrix.length; x++) {
             for (int y = 0; y < this.matrix[x].length; y++) {
                 result.matrix[this.matrix.length - 1 - x][y] = this.matrix[x][y];
+            }
+        }
+        return result;
+    }
+
+    public ImgMatrix equalizarBrilho(){
+        HashMap<Integer, Integer> mapOfPixelsCount = new HashMap<>(); //Pixels Count, VALOR NK
+        for (int i : getAllPixelsInOrder()) {
+            Integer currentAmount = mapOfPixelsCount.getOrDefault(i, 0);
+            currentAmount++;
+            mapOfPixelsCount.put(i, currentAmount);
+        }
+        HashMap<Integer, Double> mapOfPixelsWeight = new HashMap<>(); //Pixels Weight, VALOR Pr(Rk)=nk/MN
+        int totalPixels = this.getHeight() * this.getWidth();
+        for (Map.Entry<Integer, Integer> integerIntegerEntry : mapOfPixelsCount.entrySet()) {
+            Integer pixelNumber = integerIntegerEntry.getKey();
+            Double weight = ( (double)integerIntegerEntry.getValue() /  (double)totalPixels);
+            mapOfPixelsWeight.put(pixelNumber, weight);
+        }
+        HashMap<Integer, Integer> mapOfPixelsExit = new HashMap<>(); //Pixels to Pixel after Equalization
+        double previousWeight = 0;
+        for (int i = 0; i <= LIMIAR; i++) {
+            previousWeight = previousWeight + mapOfPixelsWeight.getOrDefault(i,0D);
+            int newValue = (int) (LIMIAR * previousWeight); // LIMIAR * SOMATORIA(Pr(Rk))
+            mapOfPixelsExit.put(i, newValue);
+        }
+        ImgMatrix result = new ImgMatrix(this.matrix[0].length, this.matrix.length);
+        for (int x = 0; x < this.matrix.length; x++) {
+            for (int y = 0; y < this.matrix[x].length; y++) {
+                result.matrix[x][y] = checkBounds(mapOfPixelsExit.get(this.matrix[x][y]));
             }
         }
         return result;

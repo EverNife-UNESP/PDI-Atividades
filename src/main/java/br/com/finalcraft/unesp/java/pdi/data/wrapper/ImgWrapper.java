@@ -39,6 +39,14 @@ public class ImgWrapper {
         return blue;
     }
 
+    public int getWidth(){
+        return this.red.getWidth();
+    }
+
+    public int getHeight(){
+        return this.red.getHeight();
+    }
+
     public ImgWrapper inverse(){
         ImgMatrix inverse_red = red.inverse();
         ImgMatrix inverse_green = isBlackAndWhite() ? null : green.inverse();
@@ -72,6 +80,13 @@ public class ImgWrapper {
         ImgMatrix brighted_green = isBlackAndWhite() ? null : green.flipVertical();
         ImgMatrix brighted_blue = isBlackAndWhite() ? null : blue.flipVertical();
         return new ImgWrapper(brighted_red, brighted_green, brighted_blue);
+    }
+
+    public ImgWrapper equalizarBrilho(){
+        ImgMatrix equalized_red = red.equalizarBrilho();
+        ImgMatrix equalized_green = isBlackAndWhite() ? null : green.equalizarBrilho();
+        ImgMatrix equalized_blue = isBlackAndWhite() ? null : blue.equalizarBrilho();
+        return new ImgWrapper(equalized_red, equalized_green, equalized_blue);
     }
 
     public ImgWrapper setBright(int bright){
