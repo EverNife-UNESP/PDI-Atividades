@@ -51,7 +51,7 @@ public class BrightHistogramViwer {
 
         // chart
         JFreeChart chart = ChartFactory.createHistogram(
-                "Histograma",
+                "Histograma de Brilho",
                 "Valor",
                 "Escala",
                 dataset,
@@ -148,7 +148,7 @@ public class BrightHistogramViwer {
 
     private JLabel jLabel;
     public void display() {
-        frame = new JFrame("Histograma");
+        frame = new JFrame("Histograma de Brilho");
         componentList.add(frame.add(createChartPanel()));
         frame.add(createControlPanel(), BorderLayout.SOUTH);
         frame.add(jLabel = new JLabel(new ImageIcon(image)), BorderLayout.WEST);

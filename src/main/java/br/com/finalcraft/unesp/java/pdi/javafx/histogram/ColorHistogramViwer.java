@@ -45,7 +45,7 @@ public class ColorHistogramViwer {
 
         // chart
         JFreeChart chart = ChartFactory.createHistogram(
-                "Histograma",
+                "Histograma de Cores",
                 "Valor",
                 "Escala",
                 dataset,
@@ -120,7 +120,7 @@ public class ColorHistogramViwer {
     }
 
     public void display() {
-        JFrame f = new JFrame("Histograma");
+        JFrame f = new JFrame("Histograma de Cores");
         f.add(createChartPanel());
         f.add(createControlPanel(), BorderLayout.SOUTH);
         f.add(new JLabel(new ImageIcon(image)), BorderLayout.WEST);
