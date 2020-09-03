@@ -34,12 +34,23 @@
                            </image>
                         </ImageView>
                      </graphic></MenuItem>
-                <MenuItem mnemonicParsing="false" onAction="#onExport" text="Exportar Como" />
+                <MenuItem mnemonicParsing="false" onAction="#onExport" text="Exportar Como">
+                     <graphic>
+                        <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@icons/appbar.page.export.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></MenuItem>
               </items>
             </MenuButton>
             <MenuButton mnemonicParsing="false" text="Avançado">
                <items>
+                  <MenuItem mnemonicParsing="false" onAction="#onBinarizacao" text="Aplicar Binarização" />
                   <MenuItem mnemonicParsing="false" onAction="#onBrightEqualization" text="Equalizar Brilho" />
+                  <MenuItem mnemonicParsing="false" onAction="#onFiltragemMedia" text="Filtragem Espacial MEDIA" />
+                  <MenuItem mnemonicParsing="false" onAction="#onFiltragemMediana" text="Filtragem Espacial MEDIANA" />
+                  <MenuItem mnemonicParsing="false" onAction="#onFiltragemLaplaciana" text="Filtragem Espacial LAPLACEANA" />
                </items>
             </MenuButton>
             <MenuButton mnemonicParsing="false" text="Histogramas">

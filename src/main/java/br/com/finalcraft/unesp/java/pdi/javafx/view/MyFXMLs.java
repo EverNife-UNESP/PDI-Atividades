@@ -9,9 +9,15 @@ import java.net.URL;
 public class MyFXMLs {
 
     public static Parent main_screen;
+    public static Parent filtragem_espacial_media;
+    public static Parent filtragem_espacial_mediana;
+    public static Parent filtragem_espacial_laplaceana;
 
     public static void loadUpFiles() throws IOException {
         main_screen = FXMLLoader.load(MyFXMLs.class.getResource("/assets/main_screen.fxml"));
+        filtragem_espacial_media = FXMLLoader.load(MyFXMLs.class.getResource("/assets/filtragem_espacial_media.fxml"));
+        filtragem_espacial_mediana = FXMLLoader.load(MyFXMLs.class.getResource("/assets/filtragem_espacial_mediana.fxml"));
+        filtragem_espacial_laplaceana = FXMLLoader.load(MyFXMLs.class.getResource("/assets/filtragem_espacial_laplaceana.fxml"));
     }
 
     public static URL getConsoleCSS(){

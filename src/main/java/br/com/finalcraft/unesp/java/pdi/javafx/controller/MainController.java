@@ -7,6 +7,9 @@ import br.com.finalcraft.unesp.java.pdi.javafx.controller.consoleview.ConsoleVie
 import br.com.finalcraft.unesp.java.pdi.javafx.controller.filemanager.FileLoaderHandler;
 
 import br.com.finalcraft.unesp.java.pdi.javafx.controller.filemanager.FileSaverHandler;
+import br.com.finalcraft.unesp.java.pdi.javafx.controller.filtragens.FiltragemEpacialControllerLaplaciana;
+import br.com.finalcraft.unesp.java.pdi.javafx.controller.filtragens.FiltragemEpacialControllerMedia;
+import br.com.finalcraft.unesp.java.pdi.javafx.controller.filtragens.FiltragemEpacialControllerMediana;
 import br.com.finalcraft.unesp.java.pdi.javafx.histogram.BrightHistogramViwer;
 import br.com.finalcraft.unesp.java.pdi.javafx.histogram.ColorHistogramViwer;
 import javafx.beans.InvalidationListener;
@@ -31,11 +34,11 @@ import java.io.File;
 
 public class MainController implements FileLoaderHandler, FileSaverHandler {
 
-    private static MainController instance;
+    public static MainController instance;
 
-    public ImgWrapper leftImage;
-    public ImgWrapper rightImage;
-    public ImgWrapper rightImageBackUp;
+    public static ImgWrapper leftImage;
+    public static ImgWrapper rightImage;
+    public static ImgWrapper rightImageBackUp;
 
     public void updateImagesBeingDisplayed(){
         if (leftImage != null){
@@ -380,4 +383,26 @@ public class MainController implements FileLoaderHandler, FileSaverHandler {
         setLight(0);
         System.out.println("Brilho da imagem equalizado!");
     }
-}
+
+    @FXML
+    void onFiltragemMedia(){
+        FiltragemEpacialControllerMedia.show();
+    }
+
+    @FXML
+    void onFiltragemMediana(){
+        FiltragemEpacialControllerMediana.show();
+    }
+
+    @FXML
+    void onFiltragemLaplaciana(){
+        FiltragemEpacialControllerLaplaciana.show();
+    }
+
+    @FXML
+    void onBinarizacao(){
+        this.rightImage = this.rightImage.setBright(-255,0, 127);
+        this.rightImage = this.rightImage.setBright(255,128, 255);
+        this.rightImageBackUp = this.rightImage.clone();
+        setLight(0);
+    }}

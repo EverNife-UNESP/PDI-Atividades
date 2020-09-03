@@ -2,7 +2,6 @@ package br.com.finalcraft.unesp.java.pdi.data.wrapper;
 
 import br.com.finalcraft.unesp.java.pdi.data.ImgMatrix;
 
-import java.util.function.Function;
 import java.util.regex.Pattern;
 
 public class ImgWrapper {
@@ -86,6 +85,27 @@ public class ImgWrapper {
         ImgMatrix equalized_red = red.equalizarBrilho();
         ImgMatrix equalized_green = isBlackAndWhite() ? null : green.equalizarBrilho();
         ImgMatrix equalized_blue = isBlackAndWhite() ? null : blue.equalizarBrilho();
+        return new ImgWrapper(equalized_red, equalized_green, equalized_blue);
+    }
+
+    public ImgWrapper filtragemEspacialMedia(double coeficiente, double[][] pesos){
+        ImgMatrix equalized_red = red.filtragemEspacialMedia(coeficiente, pesos);
+        ImgMatrix equalized_green = isBlackAndWhite() ? null : green.filtragemEspacialMedia(coeficiente, pesos);
+        ImgMatrix equalized_blue = isBlackAndWhite() ? null : blue.filtragemEspacialMedia(coeficiente, pesos);
+        return new ImgWrapper(equalized_red, equalized_green, equalized_blue);
+    }
+
+    public ImgWrapper filtragemEspacialMediana(double[][] pesos){
+        ImgMatrix equalized_red = red.filtragemEspacialMediana(pesos);
+        ImgMatrix equalized_green = isBlackAndWhite() ? null : green.filtragemEspacialMediana(pesos);
+        ImgMatrix equalized_blue = isBlackAndWhite() ? null : blue.filtragemEspacialMediana(pesos);
+        return new ImgWrapper(equalized_red, equalized_green, equalized_blue);
+    }
+
+    public ImgWrapper filtragemEspacialLaplaciana(double[][] pesos){
+        ImgMatrix equalized_red = red.filtragemEspacialLaplaciana(pesos);
+        ImgMatrix equalized_green = isBlackAndWhite() ? null : green.filtragemEspacialLaplaciana(pesos);
+        ImgMatrix equalized_blue = isBlackAndWhite() ? null : blue.filtragemEspacialLaplaciana(pesos);
         return new ImgWrapper(equalized_red, equalized_green, equalized_blue);
     }
 

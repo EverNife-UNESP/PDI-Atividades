@@ -1,9 +1,5 @@
 package br.com.finalcraft.unesp.java.pdi;
 
-import br.com.finalcraft.unesp.java.pdi.data.image.FileHelper;
-import br.com.finalcraft.unesp.java.pdi.data.ImgMatrix;
-import br.com.finalcraft.unesp.java.pdi.data.image.ImageHelper;
-import br.com.finalcraft.unesp.java.pdi.javafx.controller.consoleview.ConsoleView;
 import br.com.finalcraft.unesp.java.pdi.javafx.view.MyFXMLs;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -12,8 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-
-import java.io.File;
 
 public class JavaFXMain extends Application {
 

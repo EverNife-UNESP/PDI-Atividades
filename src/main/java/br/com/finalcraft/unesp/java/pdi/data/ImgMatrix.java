@@ -1,15 +1,9 @@
 package br.com.finalcraft.unesp.java.pdi.data;
 
-import br.com.finalcraft.unesp.java.pdi.data.image.ImageHelper;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 
@@ -46,6 +40,11 @@ public class ImgMatrix {
 
     public int getPixel(int widthCoord, int heightCoord){
         return this.matrix[heightCoord][widthCoord];
+    }
+
+    public boolean hasPixel(int widthCoord, int heightCoord){
+        return this.matrix.length > 0 && //just to prevent OutOfBound.
+                widthCoord >= 0 && heightCoord >= 0 && heightCoord < this.matrix.length && widthCoord < this.matrix[0].length;
     }
 
     public void setPixel(int widthCoord, int heightCoord, int value){
@@ -199,6 +198,94 @@ public class ImgMatrix {
         return result;
     }
 
+    public ImgMatrix filtragemEspacialMedia(double coeficiente, double[][] pesos){
+        ImgMatrix result = this.cloneEmpty();
+
+        int dislocador = -((pesos.length - 1) / 2);
+
+        //Usando método aonde é ignorado os valores fora da borda
+        for (int x = 0; x < this.matrix.length; x++) {
+            for (int y = 0; y < this.matrix[x].length; y++) {
+
+                double valorFinal = 0;
+                //Varredura de acordo com o tamanho de pesos
+                for (int i = 0; i < pesos.length; i++) {
+                    for (int j = 0; j < pesos[i].length; j++) {
+                        int targetX = x + i + dislocador;
+                        int targetY = y + j + dislocador;
+
+                        if (hasPixel(targetY,targetX)){ //widthCoord, int heightCoord
+                            valorFinal = valorFinal + (this.matrix[targetX][targetY] * pesos[i][j]);
+                        }
+                    }
+                }
+
+                result.matrix[x][y] = checkBounds((int) (valorFinal * coeficiente));
+            }
+        }
+
+        return result;
+    }
+
+    public ImgMatrix filtragemEspacialMediana(double[][] pesos){
+        ImgMatrix result = this.cloneEmpty();
+
+        int dislocador = -((pesos.length - 1) / 2);
+
+        //Usando método aonde é ignorado os valores fora da borda
+        for (int x = 0; x < this.matrix.length; x++) {
+            for (int y = 0; y < this.matrix[x].length; y++) {
+
+                List<Integer> valores = new ArrayList<>();
+                //Varredura de acordo com o tamanho de pesos, embora pesos sejam ignorados na mediana
+                for (int i = 0; i < pesos.length; i++) {
+                    for (int j = 0; j < pesos[i].length; j++) {
+                        int targetX = x + i + dislocador;
+                        int targetY = y + j + dislocador;
+                        if (hasPixel(targetY,targetX)){ //widthCoord, int heightCoord
+                            valores.add(this.matrix[targetX][targetY]);
+                        }
+                    }
+                }
+                valores.sort(Integer::compareTo);
+
+                int valorFinal = valores.get( (valores.size() - 1) / 2);
+                result.matrix[x][y] = checkBounds(valorFinal);
+            }
+        }
+
+        return result;
+    }
+
+    public ImgMatrix filtragemEspacialLaplaciana(double[][] pesos){
+        ImgMatrix result = this.cloneEmpty();
+
+        int dislocador = -((pesos.length - 1) / 2);
+
+        //Usando método aonde é ignorado os valores fora da borda
+        for (int x = 0; x < this.matrix.length; x++) {
+            for (int y = 0; y < this.matrix[x].length; y++) {
+
+                double valorASomar = 0;
+                //Varredura de acordo com o tamanho de pesos
+                for (int i = 0; i < pesos.length; i++) {
+                    for (int j = 0; j < pesos[i].length; j++) {
+                        int targetX = x + i + dislocador;
+                        int targetY = y + j + dislocador;
+
+                        if (hasPixel(targetY,targetX)){ //widthCoord, int heightCoord
+                            valorASomar = valorASomar + (this.matrix[targetX][targetY] * pesos[i][j]);
+                        }
+                    }
+                }
+
+                result.matrix[x][y] = checkBounds((int) (valorASomar + this.matrix[x][y]));
+            }
+        }
+
+        return result;
+    }
+
     public ImgMatrix clone(){
         ImgMatrix result = new ImgMatrix(this.matrix[0].length, this.matrix.length);
         for (int x = 0; x < this.matrix.length; x++) {
@@ -207,6 +294,10 @@ public class ImgMatrix {
             }
         }
         return result;
+    }
+
+    public ImgMatrix cloneEmpty(){
+        return new ImgMatrix(this.matrix[0].length, this.matrix.length);
     }
 
     @Override
@@ -227,7 +318,6 @@ public class ImgMatrix {
 
     public static ImgMatrix fromString(String reference){
         reference = reference.toString().replaceAll("[^0-9," + Pattern.quote("]") + "]","");
-        System.out.println(reference);
         String lines[] = reference.split(Pattern.quote("]"));
         int[][] matrix = new int[lines.length][lines[0].split(Pattern.quote(",")).length];
         for (int x = 0; x < lines.length; x++) {
