@@ -48,6 +48,20 @@ public class ImgWrapper {
         return this.red.getHeight();
     }
 
+    public ImgWrapper add(ImgWrapper other){
+        ImgMatrix added_red = this.red.add(other.red);
+        ImgMatrix added_green = isBlackAndWhite() ? null : this.green.add(other.green);
+        ImgMatrix added_blue = isBlackAndWhite() ? null : this.blue.add(other.blue);
+        return new ImgWrapper(added_red, added_green, added_blue);
+    }
+
+    public ImgWrapper subtract(ImgWrapper other){
+        ImgMatrix added_red = this.red.subtract(other.red);
+        ImgMatrix added_green = isBlackAndWhite() ? null : this.green.subtract(other.green);
+        ImgMatrix added_blue = isBlackAndWhite() ? null : this.blue.subtract(other.blue);
+        return new ImgWrapper(added_red, added_green, added_blue);
+    }
+
     public ImgWrapper inverse(){
         ImgMatrix inverse_red = red.inverse();
         ImgMatrix inverse_green = isBlackAndWhite() ? null : green.inverse();
