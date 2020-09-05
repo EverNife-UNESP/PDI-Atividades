@@ -14,8 +14,7 @@ apply plugin: 'java'
 apply plugin: 'com.github.johnrengelman.shadow'
 
 group 'br.com.finalcraft'
-version '1.0.5a'
-sourceCompatibility = 1.8
+version '1.0.6a'
 
 compileJava.options.encoding = 'UTF-8'
 
@@ -46,7 +45,7 @@ shadowJar {
     }
 }
 
-build.dependsOn(shadowJar);
+build.dependsOn(shadowJar)
 jar.enabled = false
 
 

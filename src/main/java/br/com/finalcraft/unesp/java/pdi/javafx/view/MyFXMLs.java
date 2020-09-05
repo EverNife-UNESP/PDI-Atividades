@@ -15,9 +15,9 @@ public class MyFXMLs {
 
     public static void loadUpFiles() throws IOException {
         main_screen = FXMLLoader.load(MyFXMLs.class.getResource("/assets/main_screen.fxml"));
-        filtragem_espacial_media = FXMLLoader.load(MyFXMLs.class.getResource("/assets/filtragem_espacial_media.fxml"));
-        filtragem_espacial_mediana = FXMLLoader.load(MyFXMLs.class.getResource("/assets/filtragem_espacial_mediana.fxml"));
-        filtragem_espacial_laplaceana = FXMLLoader.load(MyFXMLs.class.getResource("/assets/filtragem_espacial_laplaceana.fxml"));
+        filtragem_espacial_media = FXMLLoader.load(MyFXMLs.class.getResource("/assets/filstragem/filtragem_espacial_media.fxml"));
+        filtragem_espacial_mediana = FXMLLoader.load(MyFXMLs.class.getResource("/assets/filstragem/filtragem_espacial_mediana.fxml"));
+        filtragem_espacial_laplaceana = FXMLLoader.load(MyFXMLs.class.getResource("/assets/filstragem/filtragem_espacial_laplaceana.fxml"));
     }
 
     public static URL getConsoleCSS(){

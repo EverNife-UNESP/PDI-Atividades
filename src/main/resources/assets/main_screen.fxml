@@ -51,12 +51,27 @@
                   <MenuItem mnemonicParsing="false" onAction="#onFiltragemMedia" text="Filtragem Espacial MEDIA" />
                   <MenuItem mnemonicParsing="false" onAction="#onFiltragemMediana" text="Filtragem Espacial MEDIANA" />
                   <MenuItem mnemonicParsing="false" onAction="#onFiltragemLaplaciana" text="Filtragem Espacial LAPLACEANA" />
+                  <MenuItem mnemonicParsing="false" onAction="#onColorir" text="Colorir" />
+                  <MenuItem mnemonicParsing="false" onAction="#onConvertFromRGBToHSI" text="Converter RGB -&gt; HSI" />
                </items>
             </MenuButton>
             <MenuButton mnemonicParsing="false" text="Histogramas">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#onBrightHistogram" text="Histograma de Brilho" />
                   <MenuItem mnemonicParsing="false" onAction="#onColorHistogram" text="Histograma de Cores" />
+               </items>
+            </MenuButton>
+            <MenuButton mnemonicParsing="false" text="Extrair Canal">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#rgb_to_r" text="RGB -&gt; R" />
+                  <MenuItem mnemonicParsing="false" onAction="#rgb_to_g" text="RGB -&gt; G" />
+                  <MenuItem mnemonicParsing="false" onAction="#rgb_to_b" text="RGB -&gt; B" />
+                  <MenuItem mnemonicParsing="false" onAction="#rgb_to_c" text="RGB -&gt; C" />
+                  <MenuItem mnemonicParsing="false" onAction="#rgb_to_m" text="RGB -&gt; M" />
+                  <MenuItem mnemonicParsing="false" onAction="#rgb_to_y" text="RGB -&gt; Y" />
+                  <MenuItem mnemonicParsing="false" onAction="#rgb_to_h" text="RGB -&gt; H" />
+                  <MenuItem mnemonicParsing="false" onAction="#rgb_to_s" text="RGB -&gt; S" />
+                  <MenuItem mnemonicParsing="false" onAction="#rgb_to_i" text="RGB -&gt; I" />
                </items>
             </MenuButton>
             <Button mnemonicParsing="false" onAction="#onConsoleOpen" text="Abrir Console" textFill="#d04e4e">

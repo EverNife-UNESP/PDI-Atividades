@@ -74,7 +74,7 @@ public class MainController implements FileLoaderHandler, FileSaverHandler {
             brightRangeMin.setDisable(false);
             brightRangeMax.setDisable(false);
 
-            zoomProperty.set(leftImage.getRed().getWidth() / 4);
+            zoomProperty.set(leftImage.getRed().getWidth() / 4D);
         }
         setLight(0);
     }
@@ -405,4 +405,86 @@ public class MainController implements FileLoaderHandler, FileSaverHandler {
         this.rightImage = this.rightImage.setBright(255,128, 255);
         this.rightImageBackUp = this.rightImage.clone();
         setLight(0);
-    }}
+    }
+
+    @FXML
+    void onConvertFromRGBToHSI(){
+        this.rightImage = this.rightImage.onConvertFromRGBToHSI();
+        this.rightImageBackUp = this.rightImage.clone();
+        setLight(0);
+    }
+
+
+    @FXML
+    void onColorir(){
+        this.rightImage = this.rightImage.colorify();
+        this.rightImageBackUp = this.rightImage.clone();
+        setLight(0);
+    }
+
+
+    @FXML
+    void rgb_to_r() {
+        this.rightImage = this.rightImage.extractRed();
+        this.rightImageBackUp = this.rightImage.clone();
+        setLight(0);
+    }
+
+    @FXML
+    void rgb_to_g() {
+        this.rightImage = this.rightImage.extractGreen();
+        this.rightImageBackUp = this.rightImage.clone();
+        setLight(0);
+    }
+
+    @FXML
+    void rgb_to_b() {
+        this.rightImage = this.rightImage.extractBlue();
+        this.rightImageBackUp = this.rightImage.clone();
+        setLight(0);
+    }
+
+    @FXML
+    void rgb_to_c() {
+        this.rightImage = this.rightImage.extractCyan();
+        this.rightImageBackUp = this.rightImage.clone();
+        setLight(0);
+    }
+
+    @FXML
+    void rgb_to_m() {
+        this.rightImage = this.rightImage.extractMagenta();
+        this.rightImageBackUp = this.rightImage.clone();
+        setLight(0);
+    }
+
+    @FXML
+    void rgb_to_y() {
+        this.rightImage = this.rightImage.extractYellow();
+        this.rightImageBackUp = this.rightImage.clone();
+        setLight(0);
+    }
+
+    @FXML
+    void rgb_to_h() {
+        this.rightImage = this.rightImage.extractHue();
+        this.rightImageBackUp = this.rightImage.clone();
+        setLight(0);
+    }
+
+    @FXML
+    void rgb_to_s() {
+        this.rightImage = this.rightImage.extractSaturation();
+        this.rightImageBackUp = this.rightImage.clone();
+        setLight(0);
+    }
+
+    @FXML
+    void rgb_to_i() {
+        this.rightImage = this.rightImage.extractIntensity();
+        this.rightImageBackUp = this.rightImage.clone();
+        setLight(0);
+        System.out.println("Extrair Intensidade!");
+    }
+
+}
