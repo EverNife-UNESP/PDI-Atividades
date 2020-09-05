@@ -11,9 +11,8 @@ public interface FileLoaderHandler {
 
     public static List<FileLoaderHandler> fileHandlers = new ArrayList<FileLoaderHandler>();
 
-    public static void openFilerLoader(FileLoaderHandler fileLoaderHandler){
+    public static void openFilerLoader(){
         //File Loader não existe ou já está escutando?
-        boolean deliveryOnly = fileLoaderHandler == null ? true : !fileHandlers.contains(fileLoaderHandler);
 
         FileChooser fileChooser = new FileChooser();
 
@@ -28,9 +27,7 @@ public interface FileLoaderHandler {
 
         if (loadedFile == null) return; //tab closed
 
-        if (!deliveryOnly) fileLoaderHandler.startHearingForFileLoads();
         fileHandlers.forEach(fLoader -> fLoader.onFileLoaded(loadedFile));
-        if (!deliveryOnly) fileLoaderHandler.stopHearingForFileLoads();
     }
 
     public default void startHearingForFileLoads(){

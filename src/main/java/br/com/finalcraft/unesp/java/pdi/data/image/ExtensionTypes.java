@@ -3,6 +3,7 @@ package br.com.finalcraft.unesp.java.pdi.data.image;
 import br.com.finalcraft.unesp.java.pdi.data.ImgMatrix;
 import br.com.finalcraft.unesp.java.pdi.data.wrapper.ImgWrapper;
 
+import java.util.Arrays;
 import java.util.function.Function;
 
 public enum ExtensionTypes {
@@ -20,13 +21,25 @@ public enum ExtensionTypes {
             },
             string -> {
                 String[] allLines = string.split("\n");
-                int width = Integer.parseInt(allLines[2].split(" ")[0]);
-                int height = Integer.parseInt(allLines[2].split(" ")[1]);
+                int width = -1;
+                int height = -1;
+                for (int i = 0; i < allLines.length; i++) {
+                    if (allLines[i].equalsIgnoreCase("255")){
+                        width = Integer.parseInt(allLines[i -1].split(" ")[0]);
+                        height = Integer.parseInt(allLines[i -1].split(" ")[1]);
+                        allLines = Arrays.copyOfRange(allLines, i+1, allLines.length);
+                        break;
+                    }
+                }
+                System.out.println(String.format("width[%s]", width));
+                System.out.println(String.format("height[%s]", height));
+                String[] allNumbers = String.join(" ", allLines).trim().split(" ");
+
                 ImgMatrix imgMatrix = new ImgMatrix(width,height);
-                int index = 4;
+                int index = 0;
                 for (int x = 0; x < height; x++) {
                     for (int y = 0; y < width; y++) {
-                        imgMatrix.matrix[x][y] = Integer.valueOf(allLines[index]);
+                        imgMatrix.matrix[x][y] = Integer.valueOf(allNumbers[index]);
                         index++;
                     }
                 }
@@ -52,17 +65,32 @@ public enum ExtensionTypes {
             },
             string -> {
                 String[] allLines = string.split("\n");
-                int width = Integer.parseInt(allLines[2].split(" ")[0]);
-                int height = Integer.parseInt(allLines[2].split(" ")[1]);
+                int width = -1;
+                int height = -1;
+                for (int i = 0; i < allLines.length; i++) {
+                    if (allLines[i].equalsIgnoreCase("255")){
+                        width = Integer.parseInt(allLines[i -1].split(" ")[0]);
+                        height = Integer.parseInt(allLines[i -1].split(" ")[1]);
+                        allLines = Arrays.copyOfRange(allLines, i+1, allLines.length);
+                        break;
+                    }
+                }
+                System.out.println(String.format("width[%s]", width));
+                System.out.println(String.format("height[%s]", height));
+
+                String[] allNumbers = String.join(" ", allLines).trim().split(" ");
+
+                System.out.println(Arrays.toString(allNumbers));
+
                 ImgMatrix imgmatrix_red = new ImgMatrix(width,height);
                 ImgMatrix imgmatrix_green = new ImgMatrix(width,height);
                 ImgMatrix imgmatrix_blue = new ImgMatrix(width,height);
-                int index = 4;
+                int index = 0;
                 for (int x = 0; x < height; x++) {
                     for (int y = 0; y < width; y++) {
-                        imgmatrix_red.matrix[x][y] = Integer.valueOf(allLines[index++]);
-                        imgmatrix_green.matrix[x][y] = Integer.valueOf(allLines[index++]);
-                        imgmatrix_blue.matrix[x][y] = Integer.valueOf(allLines[index++]);
+                        imgmatrix_red.matrix[x][y] = Integer.valueOf(allNumbers[index++]);
+                        imgmatrix_green.matrix[x][y] = Integer.valueOf(allNumbers[index++]);
+                        imgmatrix_blue.matrix[x][y] = Integer.valueOf(allNumbers[index++]);
                     }
                 }
                 return new ImgWrapper(imgmatrix_red, imgmatrix_green, imgmatrix_blue);

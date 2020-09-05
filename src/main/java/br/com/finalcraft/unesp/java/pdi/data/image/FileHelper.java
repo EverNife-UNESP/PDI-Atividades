@@ -44,11 +44,12 @@ public class FileHelper {
             if (extension != null){
                 System.out.println("Found custom known extension!");
                 BufferedReader outputWriter = new BufferedReader(new FileReader(file));
-                String result = outputWriter.lines().reduce((s, s2) -> s2 = s + (extension == ExtensionTypes.PGM ? "\n" : "") + s2).get();
-                return extension.getImporter().apply(result);
+                String[] allLines = outputWriter.lines().toArray(String[]::new);
+                return extension.getImporter().apply(String.join("\n", allLines));
             }
             System.out.println("Fallback on JavaCommonImage System!");
-            return ImageHelper.converToImgWrapper(ImageHelper.readRegularImage(file));
+            BufferedImage bufferedImage = ImageHelper.readRegularImage(file);
+            return ImageHelper.converToImgWrapper(bufferedImage);
         }catch (Exception e){
             e.printStackTrace();
         }

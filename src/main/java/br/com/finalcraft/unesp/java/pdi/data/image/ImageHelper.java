@@ -16,9 +16,8 @@ public class ImageHelper {
         try {
             return ImageIO.read(file);
         }catch (Exception e){
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        return null;
     }
 
     public static ImgMatrix converToImgMatrix(BufferedImage original){

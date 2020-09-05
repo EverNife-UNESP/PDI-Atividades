@@ -339,7 +339,7 @@ public class MainController implements FileLoaderHandler, FileSaverHandler {
     @FXML
     void onOpenFile(){
         startHearingForFileLoads();
-        FileLoaderHandler.openFilerLoader(this);
+        FileLoaderHandler.openFilerLoader();
         stopHearingForFileLoads();
     }
 
