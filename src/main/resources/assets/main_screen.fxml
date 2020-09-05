@@ -51,6 +51,7 @@
                   <MenuItem mnemonicParsing="false" onAction="#onFiltragemMedia" text="Filtragem Espacial MEDIA" />
                   <MenuItem mnemonicParsing="false" onAction="#onFiltragemMediana" text="Filtragem Espacial MEDIANA" />
                   <MenuItem mnemonicParsing="false" onAction="#onFiltragemLaplaciana" text="Filtragem Espacial LAPLACEANA" />
+                  <MenuItem mnemonicParsing="false" onAction="#onFiltragemHighBost" text="Filtragem Espacial HIGH_BOST" />
                   <MenuItem mnemonicParsing="false" onAction="#onColorir" text="Colorir" />
                   <MenuItem mnemonicParsing="false" onAction="#onConvertFromRGBToHSI" text="Converter RGB -&gt; HSI" />
                </items>

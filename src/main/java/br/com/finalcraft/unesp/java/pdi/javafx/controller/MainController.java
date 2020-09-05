@@ -7,6 +7,7 @@ import br.com.finalcraft.unesp.java.pdi.javafx.controller.consoleview.ConsoleVie
 import br.com.finalcraft.unesp.java.pdi.javafx.controller.filemanager.FileLoaderHandler;
 
 import br.com.finalcraft.unesp.java.pdi.javafx.controller.filemanager.FileSaverHandler;
+import br.com.finalcraft.unesp.java.pdi.javafx.controller.filtragens.FiltragemEpacialControllerHighBoost;
 import br.com.finalcraft.unesp.java.pdi.javafx.controller.filtragens.FiltragemEpacialControllerLaplaciana;
 import br.com.finalcraft.unesp.java.pdi.javafx.controller.filtragens.FiltragemEpacialControllerMedia;
 import br.com.finalcraft.unesp.java.pdi.javafx.controller.filtragens.FiltragemEpacialControllerMediana;
@@ -397,6 +398,11 @@ public class MainController implements FileLoaderHandler, FileSaverHandler {
     @FXML
     void onFiltragemLaplaciana(){
         FiltragemEpacialControllerLaplaciana.show();
+    }
+
+    @FXML
+    void onFiltragemHighBost(){
+        FiltragemEpacialControllerHighBoost.show();
     }
 
     @FXML

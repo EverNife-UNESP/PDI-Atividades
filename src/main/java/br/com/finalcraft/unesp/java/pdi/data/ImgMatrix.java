@@ -100,6 +100,19 @@ public class ImgMatrix {
         return result;
     }
 
+    public ImgMatrix add(ImgMatrix other){
+        ImgMatrix result = new ImgMatrix(this.matrix[0].length, this.matrix.length);
+        for (int x = 0; x < this.matrix.length; x++) {
+            for (int y = 0; y < this.matrix[x].length; y++) {
+                if (x >= other.matrix.length || y >= other.matrix[x].length){
+                    continue;
+                }
+                result.matrix[x][y] = checkBounds(this.matrix[x][y] + other.matrix[x][y]);
+            }
+        }
+        return result;
+    }
+
     public ImgMatrix subtract(ImgMatrix other){
         ImgMatrix result = new ImgMatrix(this.matrix[0].length, this.matrix.length);
         for (int x = 0; x < this.matrix.length; x++) {
@@ -113,16 +126,11 @@ public class ImgMatrix {
         return result;
     }
 
-    public ImgMatrix add(ImgMatrix other){
+    public ImgMatrix multiply(double value){
         ImgMatrix result = new ImgMatrix(this.matrix[0].length, this.matrix.length);
         for (int x = 0; x < this.matrix.length; x++) {
             for (int y = 0; y < this.matrix[x].length; y++) {
-                if (x >= other.matrix.length || y >= other.matrix[x].length){
-                    continue;
-                }
-                result.matrix[x][y] = this.matrix[x][y] + other.matrix[x][y];
-                if (result.matrix[x][y] < 0) result.matrix[x][y] = 0;
-                if (result.matrix[x][y] > 100) result.matrix[x][y] = 100;
+                result.matrix[x][y] = checkBounds((int)(this.matrix[x][y] * value));
             }
         }
         return result;

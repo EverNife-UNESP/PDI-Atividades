@@ -62,6 +62,13 @@ public class ImgWrapper {
         return new ImgWrapper(added_red, added_green, added_blue);
     }
 
+    public ImgWrapper multiply(double value){
+        ImgMatrix added_red = this.red.multiply(value);
+        ImgMatrix added_green = isBlackAndWhite() ? null : this.green.multiply(value);
+        ImgMatrix added_blue = isBlackAndWhite() ? null : this.blue.multiply(value);
+        return new ImgWrapper(added_red, added_green, added_blue);
+    }
+
     public ImgWrapper inverse(){
         ImgMatrix inverse_red = red.inverse();
         ImgMatrix inverse_green = isBlackAndWhite() ? null : green.inverse();
@@ -123,6 +130,15 @@ public class ImgWrapper {
         ImgMatrix equalized_green = isBlackAndWhite() ? null : green.filtragemEspacialLaplaciana(pesos);
         ImgMatrix equalized_blue = isBlackAndWhite() ? null : blue.filtragemEspacialLaplaciana(pesos);
         return new ImgWrapper(equalized_red, equalized_green, equalized_blue);
+    }
+
+    public ImgWrapper filtragemEspacialHighBoost(double constante, double[][] pesos){
+        ImgWrapper original = this.clone();
+        ImgWrapper borrada = this.filtragemEspacialMedia(1D / (pesos.length * pesos.length), pesos);
+        ImgWrapper mascara = original.subtract(borrada);
+
+        ImgWrapper result = original.add( mascara.multiply(constante) );
+        return result;
     }
 
     public ImgWrapper setBright(int bright){
