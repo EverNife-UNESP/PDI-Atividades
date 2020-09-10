@@ -3,7 +3,6 @@ package br.com.finalcraft.unesp.java.pdi.data.wrapper;
 import br.com.finalcraft.unesp.java.pdi.colorutil.ColorUtil;
 import br.com.finalcraft.unesp.java.pdi.data.ImgMatrix;
 
-import java.util.Arrays;
 import java.util.regex.Pattern;
 
 public class ImgWrapper {
@@ -175,11 +174,11 @@ public class ImgWrapper {
         ImgWrapper result = new ImgWrapper(this.red.cloneEmpty(), this.red.cloneEmpty(), this.red.cloneEmpty());
         for (int x = 0; x < this.red.matrix.length; x++) {
             for (int y = 0; y < this.red.matrix[x].length; y++) {
-                double B_W = this.red.matrix[x][y]  / 255D;
+                double B_W = this.red.matrix[x][y] / (double)this.red.LIMIAR;
                 double[] R_G_B = ColorUtil.spectralColor(B_W);
-                result.red.matrix[x][y] = (int) (R_G_B[0] * 255);
-                result.green.matrix[x][y] = (int) (R_G_B[1] * 255);
-                result.blue.matrix[x][y] = (int) (R_G_B[2] * 255);
+                result.red.matrix[x][y] = (int) (R_G_B[0] * this.red.LIMIAR);
+                result.green.matrix[x][y] = (int) (R_G_B[1] * this.red.LIMIAR);
+                result.blue.matrix[x][y] = (int) (R_G_B[2] * this.red.LIMIAR);
             }
         }
         return result;

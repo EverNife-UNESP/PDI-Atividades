@@ -2,13 +2,21 @@ package br.com.finalcraft.unesp.java.pdi.colorutil;
 
 public class ColorUtil {
 
+    public static int INTERN_BOUNDS = 50;
+
     //Reference https://stackoverflow.com/questions/3407942/rgb-values-of-visible-spectrum
     public static double[] spectralColor(double l){// RGB <0,1> <- lambda l <0,1> [nm]
         double r = 0;
         double g = 0;
         double b = 0;
         double t;
-        l = 400 + (l * 200);
+
+        l = 400 + INTERN_BOUNDS + ( l * (300 - (INTERN_BOUNDS * 2)));
+        //Redução de intervalo, embora fosse de 400 a 700,
+        //após alguns testes é preferivel usar um intervalo interno a esse
+        //um valor de 50 para o INTERN_BOUNDS implica que o espectro
+        //visíveil será reduzido para o intervalo de (400 + 50) - (700 - 50)
+
         if ((l>=400.0)&&(l<410.0)) { t=(l-400.0)/(410.0-400.0); r=    +(0.33*t)-(0.20*t*t); }
         else if ((l>=410.0)&&(l<475.0)) { t=(l-410.0)/(475.0-410.0); r=0.14         -(0.13*t*t); }
         else if ((l>=545.0)&&(l<595.0)) { t=(l-545.0)/(595.0-545.0); r=    +(1.98*t)-(     t*t); }

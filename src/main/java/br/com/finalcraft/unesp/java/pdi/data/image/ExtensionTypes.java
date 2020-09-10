@@ -49,17 +49,20 @@ public enum ExtensionTypes {
     PPM(".ppm",
             imgWrapper -> {
                 StringBuilder allPixelsInOrder = new StringBuilder();
-                ImgMatrix imgMatrix = imgWrapper.getRed();
 
                 int[] allpixels_red = imgWrapper.getRed().getAllPixelsInOrder();
                 int[] allpixels_green = imgWrapper.getGreen().getAllPixelsInOrder();
                 int[] allpixels_blue = imgWrapper.getBlue().getAllPixelsInOrder();
 
-                for (int i : allpixels_red) {
-                    allPixelsInOrder.append(allpixels_red[i] + " " + allpixels_green[i] + " " + allpixels_blue[i] + "\n");
+                for (int i = 0; i < allpixels_red.length; i++) {
+                    int r = allpixels_red[i];
+                    int g = allpixels_green[i];
+                    int b = allpixels_blue[i];
+                    allPixelsInOrder.append(r + " " + g + " " + b + "\n");
                 }
+
                 return "P3" +
-                        "\n" + imgMatrix.getWidth() + " " + imgMatrix.getHeight() +
+                        "\n" + imgWrapper.getWidth() + " " + imgWrapper.getHeight() +
                         "\n255\n" +
                         "\n" + allPixelsInOrder.toString();
             },

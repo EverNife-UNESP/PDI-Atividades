@@ -1,11 +1,11 @@
 package br.com.finalcraft.unesp.java.pdi.javafx.controller;
 
+import br.com.finalcraft.unesp.java.pdi.SerialActions;
 import br.com.finalcraft.unesp.java.pdi.data.image.FileHelper;
 import br.com.finalcraft.unesp.java.pdi.data.image.ImageHelper;
 import br.com.finalcraft.unesp.java.pdi.data.wrapper.ImgWrapper;
 import br.com.finalcraft.unesp.java.pdi.javafx.controller.consoleview.ConsoleView;
 import br.com.finalcraft.unesp.java.pdi.javafx.controller.filemanager.FileLoaderHandler;
-
 import br.com.finalcraft.unesp.java.pdi.javafx.controller.filemanager.FileSaverHandler;
 import br.com.finalcraft.unesp.java.pdi.javafx.controller.filtragens.FiltragemEpacialControllerHighBoost;
 import br.com.finalcraft.unesp.java.pdi.javafx.controller.filtragens.FiltragemEpacialControllerLaplaciana;
@@ -20,18 +20,18 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import org.controlsfx.control.RangeSlider;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.Arrays;
 
 public class MainController implements FileLoaderHandler, FileSaverHandler {
 
@@ -54,8 +54,52 @@ public class MainController implements FileLoaderHandler, FileSaverHandler {
         }
     }
 
+    private void enableAllButtons(){
+        brightSlider.setDisable(false);
+        brightTextField.setDisable(false);
+        buttonInvertColors.setDisable(false);
+        buttomRotateLeft.setDisable(false);
+        buttomRotateRight.setDisable(false);
+        buttomFlipHorizonttal.setDisable(false);
+        buttomFlipVertical.setDisable(false);
+        rangeSlider.setDisable(false);
+        brightRangeMin.setDisable(false);
+        brightRangeMax.setDisable(false);
+    }
+
     @Override
     public void onFileLoaded(File file) {
+
+        if (lendoArquivoDeInstrucoes){
+            String[] allLines = FileHelper.readFileAndGetLines(file);
+            if (rightImage != null){
+                SerialActions.root = rightImage.clone();
+                SerialActions.temp = rightImage.cloneEmpty();
+            }
+            for (String aLine : allLines) {
+                String[] args = aLine.split(" ");
+                if (args.length == 0 || args[0].isEmpty() || args[0].charAt(0) == '#'){
+                    continue;
+                }
+                SerialActions.ActionEnum actionEnum = SerialActions.getByName(args[0]);
+                if (args.length > 1){
+                    args = Arrays.copyOfRange(args, 1, args.length);
+                }else {
+                    args = new String[0];
+                }
+                System.out.println("Start execution of Action: " + actionEnum + " with args " + (args.length > 0 ? "[]" : Arrays.toString(args)));
+                actionEnum.execute(args);
+            }
+            rightImage = SerialActions.root.clone();
+            rightImageBackUp = SerialActions.root.clone();
+            setLight(0);
+
+
+            enableAllButtons();
+            zoomProperty.set(rightImage.getRed().getWidth() / 4D);
+            return;
+        }
+
         ImgWrapper imgWrapper = FileHelper.readAndCreateImageWrapper(file);
         if (imgWrapper != null){
             System.out.println("Loading image: " + file.getAbsolutePath());
@@ -64,17 +108,7 @@ public class MainController implements FileLoaderHandler, FileSaverHandler {
             rightImage = imgWrapper.clone();
             rightImageBackUp = imgWrapper.clone();
 
-            brightSlider.setDisable(false);
-            brightTextField.setDisable(false);
-            buttonInvertColors.setDisable(false);
-            buttomRotateLeft.setDisable(false);
-            buttomRotateRight.setDisable(false);
-            buttomFlipHorizonttal.setDisable(false);
-            buttomFlipVertical.setDisable(false);
-            rangeSlider.setDisable(false);
-            brightRangeMin.setDisable(false);
-            brightRangeMax.setDisable(false);
-
+            enableAllButtons();
             zoomProperty.set(leftImage.getRed().getWidth() / 4D);
         }
         setLight(0);
@@ -493,4 +527,29 @@ public class MainController implements FileLoaderHandler, FileSaverHandler {
         System.out.println("Extrair Intensidade!");
     }
 
+    boolean lendoArquivoDeInstrucoes = false;
+    @FXML
+    void onReadScript() {
+        lendoArquivoDeInstrucoes = true;
+        startHearingForFileLoads();
+        FileLoaderHandler.openCustomFilerLoader(new FileChooser.ExtensionFilter(
+                "Arquivo de Instruções", "*.txt")
+        );
+        stopHearingForFileLoads();
+        lendoArquivoDeInstrucoes = false;
+    }
+
+    @FXML
+    void onScriptHelp() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.initModality(Modality.WINDOW_MODAL);
+        alert.setTitle("Ajuda");
+        alert.setHeaderText("Lista de comandos para as Ações Seriais");
+        StringBuilder stringBuilder = new StringBuilder();
+        for (SerialActions.ActionEnum value : SerialActions.ActionEnum.values()) {
+            stringBuilder.append(value.name() + " " + value.getUsage() + "\n");
+        }
+        alert.setContentText(stringBuilder.toString());
+        alert.show();
+    }
 }

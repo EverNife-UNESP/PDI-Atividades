@@ -1,0 +1,32 @@
+#
+#Linhas iniciadas com # são comentários!
+#Linhas vazias são descartadas
+#
+#O que esse script faz:
+#
+#Leitura de arquivo
+#Rotação Simples
+#Rotação Simples
+#Inverção de Cores
+#Coloração a partir de espectro visual
+#Filtro da Mediana 3x3
+#Salvar imagem na Direita
+#Giro Vertical
+#Inverter Cores
+#Exporta imagem em dois formatos diferentes
+#
+#
+# Para ver todos os comandos disponíveis, use a aba de ajuda dentro do programa.
+
+
+READ tests\ctskull-256.png
+ROTATE_RIGHT
+ROTATE_RIGHT
+INVERT_COLORS
+COLORIFY
+FILTER_MEDIAN 3
+TEMP_SAVE
+FLIP_VERTICAL
+INVERT_COLORS
+EXPORT tests\ctskull-256-processed.png
+EXPORT tests\ctskull-256-processed.ppm

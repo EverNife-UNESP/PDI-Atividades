@@ -12,8 +12,6 @@ public interface FileLoaderHandler {
     public static List<FileLoaderHandler> fileHandlers = new ArrayList<FileLoaderHandler>();
 
     public static void openFilerLoader(){
-        //File Loader não existe ou já está escutando?
-
         FileChooser fileChooser = new FileChooser();
 
         FileChooser.ExtensionFilter fileExtensions =
@@ -21,6 +19,19 @@ public interface FileLoaderHandler {
                         "Alguns tipos de imagens", "*.fcimage", "*.pgm", "*.ppm", "*.png", "*.jpg");
 
         fileChooser.getExtensionFilters().add(fileExtensions);
+
+        fileChooser.setInitialDirectory(new File("").getAbsoluteFile());
+        File loadedFile = fileChooser.showOpenDialog(JavaFXMain.primaryStage);
+
+        if (loadedFile == null) return; //tab closed
+
+        fileHandlers.forEach(fLoader -> fLoader.onFileLoaded(loadedFile));
+    }
+
+    public static void openCustomFilerLoader(FileChooser.ExtensionFilter extensionFilter){
+        FileChooser fileChooser = new FileChooser();
+
+        fileChooser.getExtensionFilters().add(extensionFilter);
 
         fileChooser.setInitialDirectory(new File("").getAbsoluteFile());
         File loadedFile = fileChooser.showOpenDialog(JavaFXMain.primaryStage);

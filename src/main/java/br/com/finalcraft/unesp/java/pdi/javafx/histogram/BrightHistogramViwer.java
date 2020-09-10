@@ -1,17 +1,5 @@
 package br.com.finalcraft.unesp.java.pdi.javafx.histogram;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.List;
-import javax.swing.AbstractAction;
-import javax.swing.ImageIcon;
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
 import br.com.finalcraft.unesp.java.pdi.data.ImgMatrix;
 import br.com.finalcraft.unesp.java.pdi.data.image.ImageHelper;
 import br.com.finalcraft.unesp.java.pdi.data.wrapper.ImgWrapper;
@@ -24,6 +12,13 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.StandardXYBarPainter;
 import org.jfree.chart.renderer.xy.XYBarRenderer;
 import org.jfree.data.statistics.HistogramDataset;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BrightHistogramViwer {
 

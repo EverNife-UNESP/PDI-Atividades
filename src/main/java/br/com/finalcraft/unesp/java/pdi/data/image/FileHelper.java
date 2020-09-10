@@ -55,4 +55,13 @@ public class FileHelper {
         }
         return null;
     }
+
+    public static String[] readFileAndGetLines(File file){
+        try {
+            BufferedReader outputWriter = new BufferedReader(new FileReader(file));
+            return outputWriter.lines().toArray(String[]::new);
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
 }
