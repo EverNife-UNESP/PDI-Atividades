@@ -27,6 +27,45 @@ public class SerialActions {
         return pesos;
     }
 
+    private static double[][] criarPesosLaplaciano(int mode){
+        double[][] pesos = new double[3][3];
+        switch (mode){
+            case 1:{
+                pesos = new double[][]{
+                        {0,-1,0},
+                        {-1,4,-1},
+                        {0,-1,0},
+                };
+                break;
+            }
+            case 2:{
+                pesos = new double[][]{
+                        {0,1,0},
+                        {1,-4,1},
+                        {0,1,0},
+                };
+                break;
+            }
+            case 3:{
+                pesos = new double[][]{
+                        {-1,-1,-1},
+                        {-1,8,-1},
+                        {-1,-1,-1},
+                };
+                break;
+            }
+            case 4:{
+                pesos = new double[][]{
+                        {1,1,1},
+                        {1,-8,1},
+                        {1,1,1},
+                };
+                break;
+            }
+        }
+        return pesos;
+    }
+
     public static enum ActionEnum {
         READ(args -> {
             root = FileHelper.readAndCreateImageWrapper(new File(args[0]));
@@ -94,10 +133,10 @@ public class SerialActions {
             root = root.filtragemEspacialMediana(pesos);
         }, "<tamanho> - Aplicar filtro da MEDIANA"),
         FILTER_LAPLACIAN(args -> {
-            Integer tam = Integer.parseInt(args[0]);
-            double[][] pesos = criarPessos(tam);
+            Integer modo = Integer.parseInt(args[0]);
+            double[][] pesos = criarPesosLaplaciano(modo);
             root = root.filtragemEspacialLaplaciana(pesos);
-        }, "<tamanho> - Aplicar filtro LAPLACIANO"),
+        }, "<1|2|3|4> - Aplicar filtro LAPLACIANO (Centro 4, -4, 8, -8) respectivamente"),
         FILTER_HIGHBOOST(args -> {
             Double constante = Double.parseDouble(args[0]);
             Integer tam = Integer.parseInt(args[0]);
