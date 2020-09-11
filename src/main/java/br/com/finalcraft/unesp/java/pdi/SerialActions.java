@@ -68,10 +68,10 @@ public class SerialActions {
 
     public static enum ActionEnum {
         READ(args -> {
-            root = FileHelper.readAndCreateImageWrapper(new File(args[0]));
+            root = FileHelper.readAndCreateImageWrapper(new File(String.join(" ", args)));
         }, "<FilePath> - Ler Arquivo"),
         EXPORT(args -> {
-            FileHelper.export(new File(args[0]), root);
+            FileHelper.export(new File(String.join(" ", args)), root);
         }, "<FilePath> - Exportar Arquivo"),
         TEMP_SAVE(args -> {
             MainController.leftImage = root.clone();
@@ -92,11 +92,11 @@ public class SerialActions {
             root = root.inverse();
         }, " - Inverter Cores"),
         ADD_IMG(args -> {
-            temp = FileHelper.readAndCreateImageWrapper(new File(args[0]));
+            temp = FileHelper.readAndCreateImageWrapper(new File(String.join(" ", args)));
             root = root.add(temp);
         }, "<FilePath> - Adicionar Imagem a imagem atual"),
         REMOVE_IMG(args -> {
-            temp = FileHelper.readAndCreateImageWrapper(new File(args[0]));
+            temp = FileHelper.readAndCreateImageWrapper(new File(String.join(" ", args)));
             root = root.subtract(temp);
         }, "<FilePath> - Remover Imagem da imagem atual"),
         ADD_VALUE(args -> {
@@ -125,7 +125,7 @@ public class SerialActions {
         FILTER_AVARAGE(args -> {
             Integer tam = Integer.parseInt(args[0]);
             double[][] pesos = criarPessos(tam);
-            root = root.filtragemEspacialMedia(1D/(pesos.length ^ 2), pesos);
+            root = root.filtragemEspacialMedia(1D/(tam * tam), pesos);
         }, "<tamanho> - Aplicar filtro da MÉDIA"),
         FILTER_MEDIAN(args -> {
             Integer tam = Integer.parseInt(args[0]);
@@ -138,11 +138,11 @@ public class SerialActions {
             root = root.filtragemEspacialLaplaciana(pesos);
         }, "<1|2|3|4> - Aplicar filtro LAPLACIANO (Centro 4, -4, 8, -8) respectivamente"),
         FILTER_HIGHBOOST(args -> {
-            Double constante = Double.parseDouble(args[0]);
             Integer tam = Integer.parseInt(args[0]);
+            Double constante =  args.length >= 2 ? Double.parseDouble(args[0]) : 1;
             double[][] pesos = criarPessos(tam);
             root = root.filtragemEspacialHighBoost(constante, pesos);
-        }, "<tamanho> - Aplicar filtro HIGH BOST"),
+        }, "<tamanho> [const_K] - Aplicar filtro HIGH BOST"),
         EQUALIZATION(args -> {
             root = root.equalizarBrilho();
         }, "- Aplicar Equalização de Brilho"),

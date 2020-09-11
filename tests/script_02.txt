@@ -1,0 +1,8 @@
+READ tests\Church 550x367.jpg
+TEMP_SAVE
+FILTER_AVARAGE 9
+FILTER_AVARAGE 3
+FILTER_AVARAGE 3
+FILTER_AVARAGE 3
+EXPORT tests\Church 550x367-altered.png
+EXPORT tests\Church 550x367-altered.ppm

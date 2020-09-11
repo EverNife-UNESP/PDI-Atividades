@@ -1,4 +1,4 @@
-package br.com.finalcraft.unesp.java.pdi.colorutil;
+package br.com.finalcraft.unesp.java.pdi.data.colorutil;
 
 public class ColorUtil {
 

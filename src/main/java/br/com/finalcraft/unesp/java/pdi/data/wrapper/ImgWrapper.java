@@ -1,6 +1,6 @@
 package br.com.finalcraft.unesp.java.pdi.data.wrapper;
 
-import br.com.finalcraft.unesp.java.pdi.colorutil.ColorUtil;
+import br.com.finalcraft.unesp.java.pdi.data.colorutil.ColorUtil;
 import br.com.finalcraft.unesp.java.pdi.data.ImgMatrix;
 
 import java.util.regex.Pattern;
